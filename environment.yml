@@ -1,0 +1,8 @@
+name: detection-reference-benchmark
+dependencies:
+  - python=3.8
+  - pip
+  - pip:
+    - light-the-torch
+    - pycocotools
+    - tqdm

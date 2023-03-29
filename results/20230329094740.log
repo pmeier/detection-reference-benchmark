@@ -38,7 +38,7 @@ Core(s) per socket:              12
 Socket(s):                       1
 Stepping:                        0
 Frequency boost:                 enabled
-CPU(s) scaling MHz:              67%
+CPU(s) scaling MHz:              74%
 CPU max MHz:                     4950,1948
 CPU min MHz:                     2200,0000
 BogoMIPS:                        7389,57
@@ -68,7 +68,10 @@ Versions of relevant libraries:
 [pip3] numpy==1.24.1
 [pip3] torch==2.1.0.dev20230326+cpu
 [pip3] torchvision==0.16.0.dev20230326+cpu
-[conda] Could not collect
+[conda] light-the-torch           0.7.2                    pypi_0    pypi
+[conda] numpy                     1.24.1                   pypi_0    pypi
+[conda] torch                     2.1.0.dev20230326+cpu          pypi_0    pypi
+[conda] torchvision               0.16.0.dev20230326+cpu          pypi_0    pypi
 ############################################################
 # Benchmark without DataLoader
 ############################################################
@@ -76,25 +79,25 @@ v1
 ------------------------------------------------------------
 Building dataset
 loading annotations into memory...
-Done (t=9.80s)
+Done (t=13.25s)
 creating index...
 index created!
 Caching dataset
 Benchmarking
-load: 0.73µs
-transform: 442.55µs
+load: 0.71 µs/img
+transform: 515.09 µs/img
 ------------------------------------------------------------
 v2
 ------------------------------------------------------------
 Building dataset
 loading annotations into memory...
-Done (t=9.09s)
+Done (t=9.30s)
 creating index...
 index created!
 Caching dataset
 Benchmarking
-load: 0.80µs
-transform: 3304.50µs
+load: 0.72 µs/img
+transform: 3015.62 µs/img
 ------------------------------------------------------------
 ############################################################
 # Benchmark with DataLoader
@@ -103,23 +106,23 @@ v1
 ------------------------------------------------------------
 Building dataset
 loading annotations into memory...
-Done (t=10.24s)
+Done (t=9.76s)
 creating index...
 index created!
 Caching dataset
 Benchmarking
-load: 29743.39µs
-transform: 80614.17µs
+load: 1920.34 µs/img
+transform: 3477.61 µs/img
 ------------------------------------------------------------
 v2
 ------------------------------------------------------------
 Building dataset
 loading annotations into memory...
-Done (t=9.34s)
+Done (t=9.98s)
 creating index...
 index created!
 Caching dataset
 Benchmarking
-load: 1427.27µs
-transform: 153794.96µs
+load: 3643.74 µs/img
+transform: 6756.07 µs/img
 ------------------------------------------------------------

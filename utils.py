@@ -84,15 +84,16 @@ def benchmark(dataset, transform):
         except StopIteration:
             break
         stop = perf_counter_ns()
-        load_times.append(stop - start)
-
         if not isinstance(batch, list):
             batch = [batch]
+
+        load_times.append((stop - start) / len(batch))
+
         start = perf_counter_ns()
         for sample in batch:
             transform(*sample)
         stop = perf_counter_ns()
-        transform_times.append(stop - start)
+        transform_times.append((stop - start) / len(batch))
 
     return {
         label: float(torch.tensor(times, dtype=torch.float64).median()) * 1e-9

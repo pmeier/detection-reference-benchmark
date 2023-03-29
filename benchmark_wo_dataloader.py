@@ -25,14 +25,14 @@ def main(root):
         dataset = dataset_builder(root)
 
         print("Caching dataset")
-        dataset = InMemoryDataset(dataset, num_samples=1_000)
+        dataset = InMemoryDataset(dataset, num_samples=5_000)
 
         transform = transform_builder()
 
         print("Benchmarking")
         medians = benchmark(dataset, transform)
         for label, median in medians.items():
-            print(f"{label}: {median * 1e6:.2f}µs")
+            print(f"{label}: {median * 1e6:.2f} µs/img")
 
         print("-" * 60)
 

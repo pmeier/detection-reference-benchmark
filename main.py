@@ -25,6 +25,10 @@ class Tee:
 
 
 def main(*, input_types, tasks, num_samples):
+    # This is hardcoded when using a DataLoader with multiple workers:
+    # https://github.com/pytorch/pytorch/blob/19162083f8831be87be01bb84f186310cad1d348/torch/utils/data/_utils/worker.py#L222
+    torch.set_num_threads(1)
+
     for task_name, input_type in itertools.product(tasks, input_types):
         print("#" * 60)
         print(f"{task_name=}, {input_type=}")

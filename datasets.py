@@ -12,13 +12,8 @@ def classification_dataset_builder(*, input_type, api_version, rng, num_samples)
     }[input_type]
     return [
         type_converter(
-            torch.randint(0, 256, (3, height, width), dtype=torch.uint8, generator=rng)
+            # average size of images in ImageNet
+            torch.randint(0, 256, (3, 469, 387), dtype=torch.uint8, generator=rng)
         )
-        # FIXME: make this more realistic
-        for height, width in torch.randn((num_samples, 2), generator=rng)
-        .mul_(100)
-        .add_(400)
-        .clamp_(100, 2_000)
-        .int()
-        .tolist()
+        for _ in range(num_samples)
     ]

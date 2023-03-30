@@ -54,7 +54,7 @@ def main(*, input_types, tasks, num_samples):
 
                 print(f"{input_type=}, {api_version=}")
                 print()
-                print(f"Results computed for {num_samples} samples")
+                print(f"Results computed for {num_samples:_} samples")
                 print()
 
                 pipeline, dataset = task
@@ -113,7 +113,7 @@ if __name__ == "__main__":
         main(
             tasks=["classification-simple"],
             input_types=["Tensor", "PIL", "Datapoint"],
-            num_samples=100,
+            num_samples=10_000,
         )
 
         print("#" * 60)

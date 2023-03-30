@@ -82,9 +82,10 @@ if __name__ == "__main__":
     tee = Tee(stdout=sys.stdout)
 
     with contextlib.redirect_stdout(tee):
-        collect_env()
         main(
             tasks=["classification-simple"],
             input_types=["Tensor", "PIL", "Datapoint"],
             num_samples=10_000,
         )
+
+        collect_env()

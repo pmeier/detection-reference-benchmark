@@ -111,7 +111,7 @@ if __name__ == "__main__":
 
     with contextlib.redirect_stdout(tee):
         main(
-            tasks=["classification-simple"],
+            tasks=["classification-simple", "classification-complex"],
             input_types=["Tensor", "PIL", "Datapoint"],
             num_samples=10_000,
         )

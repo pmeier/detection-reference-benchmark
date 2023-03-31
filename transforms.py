@@ -1,10 +1,9 @@
 from time import perf_counter_ns
 
 import torch
-from torch import nn
 
 import torchvision.transforms.v2 as transforms_v2
-from torchvision import datapoints, transforms as transforms_v1
+from torchvision import transforms as transforms_v1
 from torchvision.transforms import functional as F_v1
 from torchvision.transforms.v2 import functional as F_v2
 
@@ -43,19 +42,19 @@ def classification_simple_pipeline_builder(*, input_type, api_version):
 
     if api_version == "v1":
         transforms = transforms_v1
-        MaybeContiguous = ToContiguousV1
         RandomResizedCropWithoutResize = RandomResizedCropWithoutResizeV1
     elif api_version == "v2":
         transforms = transforms_v2
-        MaybeContiguous = ToContiguousV2
         RandomResizedCropWithoutResize = RandomResizedCropWithoutResizeV2
     else:
         raise RuntimeError(f"Got {api_version=}")
 
     pipeline = []
 
-    if input_type in {"Tensor", "Datapoint"}:
-        pipeline.append(MaybeContiguous())
+    if input_type == "Tensor":
+        pipeline.append(transforms.PILToTensor())
+    elif input_type == "Datapoint":
+        pipeline.append(transforms.ToImageTensor())
 
     pipeline.extend(
         [
@@ -87,19 +86,19 @@ def classification_complex_pipeline_builder(*, input_type, api_version):
 
     if api_version == "v1":
         transforms = transforms_v1
-        MaybeContiguous = ToContiguousV1
         RandomResizedCropWithoutResize = RandomResizedCropWithoutResizeV1
     elif api_version == "v2":
         transforms = transforms_v2
-        MaybeContiguous = ToContiguousV2
         RandomResizedCropWithoutResize = RandomResizedCropWithoutResizeV2
     else:
         raise RuntimeError(f"Got {api_version=}")
 
     pipeline = []
 
-    if input_type in {"Tensor", "Datapoint"}:
-        pipeline.append(MaybeContiguous())
+    if input_type == "Tensor":
+        pipeline.append(transforms.PILToTensor())
+    elif input_type == "Datapoint":
+        pipeline.append(transforms.ToImageTensor())
 
     pipeline.extend(
         [
@@ -127,33 +126,10 @@ def classification_complex_pipeline_builder(*, input_type, api_version):
     return Pipeline(pipeline)
 
 
-class ToContiguousV1(nn.Module):
-    def __init__(self, memory_format=torch.contiguous_format):
-        super().__init__()
-        self.memory_format = memory_format
-
-    def forward(self, image):
-        return image.contiguous(memory_format=self.memory_format)
-
-
 class RandomResizedCropWithoutResizeV1(transforms_v1.RandomResizedCrop):
     def forward(self, img):
         i, j, h, w = self.get_params(img, self.scale, self.ratio)
         return F_v1.crop(img, i, j, h, w)
-
-
-class ToContiguousV2(transforms_v2.Transform):
-    _transformed_types = (torch.Tensor,)
-
-    def __init__(self, memory_format=torch.contiguous_format):
-        super().__init__()
-        self.memory_format = memory_format
-
-    def _transform(self, inpt, params):
-        output = inpt.contiguous(memory_format=self.memory_format)
-        if isinstance(inpt, datapoints._datapoint.Datapoint):
-            output = type(inpt).wrap_like(inpt, output)
-        return output
 
 
 class RandomResizedCropWithoutResizeV2(transforms_v2.RandomResizedCrop):

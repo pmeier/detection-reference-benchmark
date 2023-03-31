@@ -1,9 +1,16 @@
 from datasets import classification_dataset_builder
-from transforms import classification_simple_pipeline_builder
+from transforms import (
+    classification_simple_pipeline_builder,
+    classification_complex_pipeline_builder,
+)
 
 TASKS = {
     "classification-simple": (
         classification_simple_pipeline_builder,
+        classification_dataset_builder,
+    ),
+    "classification-complex": (
+        classification_complex_pipeline_builder,
         classification_dataset_builder,
     ),
 }

@@ -81,6 +81,52 @@ def classification_simple_pipeline_builder(*, input_type, api_version):
     return Pipeline(pipeline)
 
 
+def classification_complex_pipeline_builder(*, input_type, api_version):
+    if input_type == "Datapoint" and api_version == "v1":
+        return None
+
+    if api_version == "v1":
+        transforms = transforms_v1
+        MaybeContiguous = ToContiguousV1
+        RandomResizedCropWithoutResize = RandomResizedCropWithoutResizeV1
+    elif api_version == "v2":
+        transforms = transforms_v2
+        MaybeContiguous = ToContiguousV2
+        RandomResizedCropWithoutResize = RandomResizedCropWithoutResizeV2
+    else:
+        raise RuntimeError(f"Got {api_version=}")
+
+    pipeline = []
+
+    if input_type in {"Tensor", "Datapoint"}:
+        pipeline.append(MaybeContiguous())
+
+    pipeline.extend(
+        [
+            RandomResizedCropWithoutResize(224),
+            transforms.Resize(224, antialias=True),
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.AutoAugment(transforms.AutoAugmentPolicy.IMAGENET),
+        ]
+    )
+
+    if input_type == "PIL":
+        pipeline.append(transforms.PILToTensor())
+
+    pipeline.extend(
+        [
+            transforms.RandomErasing(p=0.2),
+            transforms.ConvertImageDtype(torch.float32),
+            transforms.Normalize(
+                mean=(0.485, 0.456, 0.406),
+                std=(0.229, 0.224, 0.225),
+            ),
+        ]
+    )
+
+    return Pipeline(pipeline)
+
+
 class ToContiguousV1(nn.Module):
     def __init__(self, memory_format=torch.contiguous_format):
         super().__init__()

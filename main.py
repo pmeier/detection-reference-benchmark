@@ -23,6 +23,10 @@ class Tee:
         self.stdout.write(message)
         self.file.write(message)
 
+    def flush(self):
+        self.stdout.flush()
+        self.file.flush()
+
 
 def main(*, input_types, tasks, num_samples):
     # This is hardcoded when using a DataLoader with multiple workers:
@@ -111,7 +115,11 @@ if __name__ == "__main__":
 
     with contextlib.redirect_stdout(tee):
         main(
-            tasks=["classification-simple", "classification-complex"],
+            tasks=[
+                "classification-simple",
+                "classification-complex",
+                "detection-ssdlite",
+            ],
             input_types=["Tensor", "PIL", "Datapoint"],
             num_samples=10_000,
         )

@@ -1,6 +1,6 @@
 import contextlib
-import itertools
 import pathlib
+import string
 import sys
 from datetime import datetime
 
@@ -98,16 +98,22 @@ def main(*, input_types, tasks, num_samples):
 
         print()
 
-        median_ref = medians["PIL"]["v1"]
         medians_flat = {
             f"{input_type}, {api_version}": median
             for input_type, api_versions in medians.items()
             for api_version, median in api_versions.items()
         }
         field_len = max(len(label) for label in medians_flat)
-        print(f"{' ' * field_len}  x / PIL, v1")
-        for label, median in medians_flat.items():
-            print(f"{label:{field_len}}  {median / median_ref:>11.2f}")
+
+        print(
+            f"{' ' * (field_len + 5)}  {'  '.join(f' [{id}]' for _, id in zip(range(len(medians_flat)), string.ascii_lowercase))}"
+        )
+        for (label, val), id in zip(medians_flat.items(), string.ascii_lowercase):
+            print(
+                f"{label:>{field_len}}, [{id}]  {'  '.join(f'{val / ref:4.2f}' for ref in medians_flat.values())}"
+            )
+        print()
+        print("Slowdown as row / col")
 
 
 if __name__ == "__main__":
@@ -121,7 +127,7 @@ if __name__ == "__main__":
                 "detection-ssdlite",
             ],
             input_types=["Tensor", "PIL", "Datapoint"],
-            num_samples=10_000,
+            num_samples=1_000,
         )
 
         print("#" * 60)

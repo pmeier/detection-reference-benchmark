@@ -1,7 +1,8 @@
-from datasets import classification_dataset_builder
+from datasets import classification_dataset_builder, detection_dataset_builder
 from transforms import (
-    classification_simple_pipeline_builder,
     classification_complex_pipeline_builder,
+    classification_simple_pipeline_builder,
+    detection_ssdlite_pipeline_builder,
 )
 
 TASKS = {
@@ -12,6 +13,10 @@ TASKS = {
     "classification-complex": (
         classification_complex_pipeline_builder,
         classification_dataset_builder,
+    ),
+    "detection-ssdlite": (
+        detection_ssdlite_pipeline_builder,
+        detection_dataset_builder,
     ),
 }
 
@@ -24,7 +29,6 @@ def make_task(name, *, input_type, api_version, dataset_rng, num_samples):
         return None
 
     dataset = dataset_builder(
-        input_type=input_type,
         api_version=api_version,
         rng=dataset_rng,
         num_samples=num_samples,

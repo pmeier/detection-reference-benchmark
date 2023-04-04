@@ -1,0 +1,339 @@
+############################################################
+classification-simple
+############################################################
+input_type='Tensor', api_version='v1'
+
+Results computed for 1_000 samples
+
+                                  median          std   
+PILToTensor                          110 µs +-     10 µs
+RandomResizedCropWithoutResizeV1      52 µs +-      9 µs
+Resize                               636 µs +-    184 µs
+RandomHorizontalFlip                  25 µs +-     10 µs
+ConvertImageDtype                     47 µs +-     11 µs
+Normalize                             75 µs +-     14 µs
+
+total                                945 µs
+------------------------------------------------------------
+input_type='Tensor', api_version='v2'
+
+Results computed for 1_000 samples
+
+                                  median          std   
+PILToTensor                          116 µs +-      8 µs
+RandomResizedCropWithoutResizeV2      55 µs +-      6 µs
+Resize                               618 µs +-    159 µs
+RandomHorizontalFlip                  35 µs +-     10 µs
+ConvertDtype                          42 µs +-      3 µs
+Normalize                             61 µs +-      4 µs
+
+total                                926 µs
+------------------------------------------------------------
+input_type='PIL', api_version='v1'
+
+Results computed for 1_000 samples
+
+                                  median          std   
+RandomResizedCropWithoutResizeV1      76 µs +-     11 µs
+Resize                               548 µs +-    152 µs
+RandomHorizontalFlip                  51 µs +-     22 µs
+PILToTensor                           52 µs +-      5 µs
+ConvertImageDtype                     50 µs +-      6 µs
+Normalize                            438 µs +-     36 µs
+
+total                               1214 µs
+------------------------------------------------------------
+input_type='PIL', api_version='v2'
+
+Results computed for 1_000 samples
+
+                                  median          std   
+RandomResizedCropWithoutResizeV2      73 µs +-     10 µs
+Resize                               540 µs +-    150 µs
+RandomHorizontalFlip                  58 µs +-     23 µs
+PILToTensor                           57 µs +-      3 µs
+ConvertDtype                          43 µs +-      3 µs
+Normalize                            417 µs +-     33 µs
+
+total                               1189 µs
+------------------------------------------------------------
+input_type='Datapoint', api_version='v2'
+
+Results computed for 1_000 samples
+
+                                  median          std   
+ToImageTensor                        122 µs +-      9 µs
+RandomResizedCropWithoutResizeV2      60 µs +-      7 µs
+Resize                               619 µs +-    163 µs
+RandomHorizontalFlip                  37 µs +-     12 µs
+ConvertDtype                          45 µs +-      6 µs
+Normalize                             64 µs +-      5 µs
+
+total                                948 µs
+------------------------------------------------------------
+############################################################
+classification-complex
+############################################################
+input_type='Tensor', api_version='v1'
+
+Results computed for 1_000 samples
+
+                                  median          std   
+PILToTensor                          109 µs +-     12 µs
+RandomResizedCropWithoutResizeV1      53 µs +-      7 µs
+Resize                               630 µs +-    166 µs
+RandomHorizontalFlip                  18 µs +-      8 µs
+AutoAugment                          765 µs +-    623 µs
+RandomErasing                         14 µs +-     36 µs
+ConvertImageDtype                     48 µs +-      5 µs
+Normalize                             74 µs +-      6 µs
+
+total                               1711 µs
+------------------------------------------------------------
+input_type='Tensor', api_version='v2'
+
+Results computed for 1_000 samples
+
+                                  median          std   
+PILToTensor                          116 µs +-     10 µs
+RandomResizedCropWithoutResizeV2      55 µs +-      7 µs
+Resize                               632 µs +-    166 µs
+RandomHorizontalFlip                  24 µs +-     10 µs
+AutoAugment                          611 µs +-    606 µs
+RandomErasing                         18 µs +-     36 µs
+ConvertDtype                          42 µs +-      3 µs
+Normalize                             62 µs +-      5 µs
+
+total                               1560 µs
+------------------------------------------------------------
+input_type='PIL', api_version='v1'
+
+Results computed for 1_000 samples
+
+                                  median          std   
+RandomResizedCropWithoutResizeV1      80 µs +-     15 µs
+Resize                               587 µs +-    156 µs
+RandomHorizontalFlip                  22 µs +-     23 µs
+AutoAugment                          339 µs +-    234 µs
+PILToTensor                           57 µs +-      6 µs
+RandomErasing                         15 µs +-     36 µs
+ConvertImageDtype                     54 µs +-     16 µs
+Normalize                            459 µs +-     39 µs
+
+total                               1613 µs
+------------------------------------------------------------
+input_type='PIL', api_version='v2'
+
+Results computed for 1_000 samples
+
+                                  median          std   
+RandomResizedCropWithoutResizeV2      78 µs +-     12 µs
+Resize                               577 µs +-    160 µs
+RandomHorizontalFlip                  27 µs +-     24 µs
+AutoAugment                          307 µs +-    242 µs
+PILToTensor                           64 µs +-      4 µs
+RandomErasing                         18 µs +-     36 µs
+ConvertDtype                          45 µs +-      6 µs
+Normalize                            427 µs +-     34 µs
+
+total                               1543 µs
+------------------------------------------------------------
+input_type='Datapoint', api_version='v2'
+
+Results computed for 1_000 samples
+
+                                  median          std   
+ToImageTensor                        125 µs +-      9 µs
+RandomResizedCropWithoutResizeV2      61 µs +-      6 µs
+Resize                               646 µs +-    167 µs
+RandomHorizontalFlip                  22 µs +-     13 µs
+AutoAugment                          630 µs +-    381 µs
+RandomErasing                         18 µs +-     39 µs
+ConvertDtype                          48 µs +-      3 µs
+Normalize                             68 µs +-      6 µs
+
+total                               1617 µs
+------------------------------------------------------------
+############################################################
+detection-ssdlite
+############################################################
+loading annotations into memory...
+Done (t=9.71s)
+creating index...
+index created!
+Caching 1000 ([89444, 73295, 101719] ... [31395, 96727, 47807]) COCO samples
+input_type='Tensor', api_version='v1'
+
+Results computed for 1_000 samples
+
+                          median          std   
+ConvertCocoPolysToMaskV1    2799 µs +-   4403 µs
+PILToTensorV1                268 µs +-     77 µs
+RandomIoUCropV1              467 µs +-   7166 µs
+RandomHorizontalFlipV1        18 µs +-    218 µs
+ConvertImageDtypeV1          267 µs +-    178 µs
+
+total                       3820 µs
+------------------------------------------------------------
+loading annotations into memory...
+Done (t=8.87s)
+creating index...
+index created!
+Caching 1000 ([89444, 73295, 101719] ... [31395, 96727, 47807]) COCO samples
+input_type='Tensor', api_version='v2'
+
+Results computed for 1_000 samples
+
+                               median          std   
+WrapCocoSampleForTransformsV2    1487 µs +-   2446 µs
+PILToTensor                       748 µs +-   5328 µs
+RandomIoUCrop                    1835 µs +-   7046 µs
+RandomHorizontalFlip              559 µs +-   2322 µs
+ConvertDtype                      760 µs +-   5410 µs
+SanitizeBoundingBox              1004 µs +-   4817 µs
+
+total                            6394 µs
+------------------------------------------------------------
+loading annotations into memory...
+Done (t=9.84s)
+creating index...
+index created!
+Caching 1000 ([89444, 73295, 101719] ... [31395, 96727, 47807]) COCO samples
+input_type='PIL', api_version='v1'
+
+Results computed for 1_000 samples
+
+                          median          std   
+ConvertCocoPolysToMaskV1    2816 µs +-   4427 µs
+RandomIoUCropV1              556 µs +-   7177 µs
+RandomHorizontalFlipV1        20 µs +-    212 µs
+PILToTensorV1                180 µs +-    112 µs
+ConvertImageDtypeV1          281 µs +-    168 µs
+
+total                       3851 µs
+------------------------------------------------------------
+loading annotations into memory...
+Done (t=9.73s)
+creating index...
+index created!
+Caching 1000 ([89444, 73295, 101719] ... [31395, 96727, 47807]) COCO samples
+input_type='PIL', api_version='v2'
+
+Results computed for 1_000 samples
+
+                               median          std   
+WrapCocoSampleForTransformsV2    1536 µs +-   2480 µs
+RandomIoUCrop                    1809 µs +-   9065 µs
+RandomHorizontalFlip              582 µs +-   4570 µs
+PILToTensor                       653 µs +-   4991 µs
+ConvertDtype                      777 µs +-   5354 µs
+SanitizeBoundingBox              1012 µs +-   6233 µs
+
+total                            6369 µs
+------------------------------------------------------------
+loading annotations into memory...
+Done (t=9.91s)
+creating index...
+index created!
+Caching 1000 ([89444, 73295, 101719] ... [31395, 96727, 47807]) COCO samples
+input_type='Datapoint', api_version='v2'
+
+Results computed for 1_000 samples
+
+                               median          std   
+WrapCocoSampleForTransformsV2    1537 µs +-   2505 µs
+ToImageTensor                     833 µs +-   2973 µs
+RandomIoUCrop                    1717 µs +-   8842 µs
+RandomHorizontalFlip              547 µs +-   5286 µs
+ConvertDtype                      725 µs +-   6290 µs
+SanitizeBoundingBox              1021 µs +-   5869 µs
+
+total                            6380 µs
+------------------------------------------------------------
+
+Summaries
+
+           v2 / v1
+Tensor        1.67
+PIL           1.65
+
+                     [a]   [b]   [c]   [d]   [e]
+   Tensor, v1, [a]  1.00  0.60  0.99  0.60  0.60
+   Tensor, v2, [b]  1.67  1.00  1.66  1.00  1.00
+      PIL, v1, [c]  1.01  0.60  1.00  0.60  0.60
+      PIL, v2, [d]  1.67  1.00  1.65  1.00  1.00
+Datapoint, v2, [e]  1.67  1.00  1.66  1.00  1.00
+
+Slowdown as row / col
+############################################################
+Collecting environment information...
+PyTorch version: 2.1.0.dev20230403+cpu
+Is debug build: False
+CUDA used to build PyTorch: Could not collect
+ROCM used to build PyTorch: N/A
+
+OS: Arch Linux (x86_64)
+GCC version: (GCC) 12.2.1 20230201
+Clang version: 15.0.7
+CMake version: version 3.25.3
+Libc version: glibc-2.37
+
+Python version: 3.8.16 (default, Mar  2 2023, 03:21:46)  [GCC 11.2.0] (64-bit runtime)
+Python platform: Linux-6.2.6-arch1-1-x86_64-with-glibc2.17
+Is CUDA available: False
+CUDA runtime version: 11.7.99
+CUDA_MODULE_LOADING set to: N/A
+GPU models and configuration: GPU 0: NVIDIA GeForce GTX 1080
+Nvidia driver version: 525.89.02
+cuDNN version: Could not collect
+HIP runtime version: N/A
+MIOpen runtime version: N/A
+Is XNNPACK available: True
+
+CPU:
+Architecture:                    x86_64
+CPU op-mode(s):                  32-bit, 64-bit
+Address sizes:                   48 bits physical, 48 bits virtual
+Byte Order:                      Little Endian
+CPU(s):                          24
+On-line CPU(s) list:             0-23
+Vendor ID:                       AuthenticAMD
+Model name:                      AMD Ryzen 9 5900X 12-Core Processor
+CPU family:                      25
+Model:                           33
+Thread(s) per core:              2
+Core(s) per socket:              12
+Socket(s):                       1
+Stepping:                        0
+Frequency boost:                 enabled
+CPU(s) scaling MHz:              56%
+CPU max MHz:                     4950,1948
+CPU min MHz:                     2200,0000
+BogoMIPS:                        7388,29
+Flags:                           fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local clzero irperf xsaveerptr rdpru wbnoinvd arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif v_spec_ctrl umip pku ospke vaes vpclmulqdq rdpid overflow_recov succor smca fsrm
+Virtualization:                  AMD-V
+L1d cache:                       384 KiB (12 instances)
+L1i cache:                       384 KiB (12 instances)
+L2 cache:                        6 MiB (12 instances)
+L3 cache:                        64 MiB (2 instances)
+NUMA node(s):                    1
+NUMA node0 CPU(s):               0-23
+Vulnerability Itlb multihit:     Not affected
+Vulnerability L1tf:              Not affected
+Vulnerability Mds:               Not affected
+Vulnerability Meltdown:          Not affected
+Vulnerability Mmio stale data:   Not affected
+Vulnerability Retbleed:          Not affected
+Vulnerability Spec store bypass: Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:        Mitigation; Retpolines, IBPB conditional, IBRS_FW, STIBP always-on, RSB filling, PBRSB-eIBRS Not affected
+Vulnerability Srbds:             Not affected
+Vulnerability Tsx async abort:   Not affected
+
+Versions of relevant libraries:
+[pip3] light-the-torch==0.7.2
+[pip3] mypy-extensions==1.0.0
+[pip3] numpy==1.24.1
+[pip3] torch==2.1.0.dev20230403+cpu
+[pip3] torchvision==0.16.0.dev20230403+cpu
+[conda] Could not collect

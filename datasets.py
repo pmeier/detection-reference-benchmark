@@ -33,9 +33,9 @@ def detection_dataset_builder(*, api_version, rng, num_samples):
 
     dataset = _coco_remove_images_without_annotations(dataset)
 
-    idcs = torch.randperm(len(dataset), generator=rng)[:num_samples]
-    print(f"Caching {num_samples} COCO samples")
-    return [dataset[idx] for idx in tqdm(idcs.tolist())]
+    idcs = torch.randperm(len(dataset), generator=rng)[:num_samples].tolist()
+    print(f"Caching {num_samples} ({idcs[:3]} ... {idcs[-3:]}) COCO samples")
+    return [dataset[idx] for idx in tqdm(idcs)]
 
 
 # everything below is copy-pasted from

@@ -199,14 +199,19 @@ class RandomResizedCropWithoutResizeV2(transforms_v2.RandomResizedCrop):
 
 class WrapCocoSampleForTransformsV2:
     def __init__(self):
-        num_samples = 117_266
         wrapper_factory = WRAPPER_FACTORIES[datasets.CocoDetection]
-        mock_dataset = SimpleNamespace(ids=list(range(num_samples)))
+        # The v2 wrapper depends on the `.ids` attribute of a `CocoDetection` dataset.
+        # However, this is eliminated above while filtering out images without
+        # annotations. Thus, we fake it here
+        mock_dataset = SimpleNamespace(ids=["invalid"])
         wrapper = wrapper_factory(mock_dataset)
-        self.wrapper = functools.partial(wrapper, num_samples // 2)
+        # The wrapper gets passed the index alongside the sample to wrap. The former is
+        # only used to retrieve the image ID by accessing the `.ids` attribute. Thus, we
+        # need to use any value so `.ids[idx]` works.
+        self.wrapper = functools.partial(wrapper, 0)
 
-    def __call__(self, *inputs):
-        return self.wrapper(inputs if len(inputs) > 1 else inputs[0])
+    def __call__(self, image, target):
+        return self.wrapper((image, target))
 
 
 # everything below is copy-pasted from

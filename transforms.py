@@ -1,4 +1,5 @@
 import functools
+import re
 from time import perf_counter_ns
 from types import SimpleNamespace
 
@@ -36,9 +37,9 @@ class Pipeline:
 
     def extract_times(self):
         return {
-            type(transform)
-            .__name__: torch.tensor(self._times[transform], dtype=torch.float64)
-            .mul_(1e-9)
+            re.match(r"(?P<name>.*?)(_?[vV][1,2])?$", type(transform).__name__)[
+                "name"
+            ]: torch.tensor(self._times[transform], dtype=torch.float64).mul_(1e-9)
             for transform in self.transforms
         }
 

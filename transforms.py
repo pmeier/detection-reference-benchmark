@@ -205,7 +205,7 @@ class WrapCocoSampleForTransformsV2:
         # However, this is eliminated above while filtering out images without
         # annotations. Thus, we fake it here
         mock_dataset = SimpleNamespace(ids=["invalid"])
-        wrapper = wrapper_factory(mock_dataset)
+        wrapper = wrapper_factory(mock_dataset, target_keys=None)
         # The wrapper gets passed the index alongside the sample to wrap. The former is
         # only used to retrieve the image ID by accessing the `.ids` attribute. Thus, we
         # need to use any value so `.ids[idx]` works.

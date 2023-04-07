@@ -5,9 +5,13 @@ import string
 import sys
 from datetime import datetime
 
+import tabulate
+
 import torch
-import torchvision
+from torch.hub import tqdm
 from torch.utils.collect_env import main as collect_env
+
+import torchvision
 
 torchvision.disable_beta_transforms_warning()
 
@@ -43,7 +47,7 @@ def main(*, input_types, tasks, num_samples):
         print(task_name)
         print("#" * 60)
 
-        medians = {input_type: {} for input_type in input_types}
+        totals = {}
         for input_type, api_version in itertools.product(input_types, ["v1", "v2"]):
             dataset_rng.set_state(dataset_rng_state)
             task = make_task(
@@ -58,63 +62,69 @@ def main(*, input_types, tasks, num_samples):
 
             print(f"{input_type=}, {api_version=}")
             print()
-            print(f"Results computed for {num_samples:_} samples")
-            print()
 
             pipeline, dataset = task
 
             torch.manual_seed(0)
-            for sample in dataset:
+            for sample in tqdm(dataset):
                 pipeline(sample)
 
-            results = pipeline.extract_times()
-            field_len = max(len(name) for name in results)
-            print(f"{' ' * field_len}  {'median   ':>9}    {'std   ':>9}")
-            medians[input_type][api_version] = 0.0
-            for transform_name, times in results.items():
-                median = float(times.median())
-                print(
-                    f"{transform_name:{field_len}}  {median * 1e6:6.0f} µs +- {float(times.std()) * 1e6:6.0f} µs"
-                )
-                medians[input_type][api_version] += median
-
-            print(
-                f"\n{'total':{field_len}}  {medians[input_type][api_version] * 1e6:6.0f} µs"
-            )
+            results = {
+                transform_name: times.mul(1e6)
+                for transform_name, times in pipeline.extract_times().items()
+            }
+            table, total = make_pipeline_stats(results)
+            print(table)
+            print()
+            print(f"Results computed for {num_samples:_} samples and reported in µs")
             print("-" * 60)
 
-    print()
-    print("Summaries")
-    print()
+            totals[(input_type, api_version)] = total
 
-    field_len = max(len(input_type) for input_type in medians)
-    print(f"{' ' * field_len}  v2 / v1")
-    for input_type, api_versions in medians.items():
-        if len(api_versions) < 2:
-            continue
+        print("Summary")
+        print()
+        print(make_summary_stats(totals))
+        print()
+        print("Slowdown computed as row / column")
 
-        print(
-            f"{input_type:{field_len}}  {api_versions['v2'] / api_versions['v1']:>7.2f}"
-        )
 
-    print()
+def make_pipeline_stats(results):
+    def make_row(times):
+        min, max = map(float, times.aminmax())
+        q25, median, q75 = times.quantile(times.new_tensor([0.25, 0.5, 0.75])).tolist()
+        return [min, q25, median, q75, max]
 
-    medians_flat = {
-        f"{input_type}, {api_version}": median
-        for input_type, api_versions in medians.items()
-        for api_version, median in api_versions.items()
-    }
-    field_len = max(len(label) for label in medians_flat)
+    headers = ["transform", "min", "25% quantile", "median", "75% quantile", "max"]
+    data = [
+        [transform_name, *make_row(times)] for transform_name, times in results.items()
+    ]
 
-    print(
-        f"{' ' * (field_len + 5)}  {'  '.join(f' [{id}]' for _, id in zip(range(len(medians_flat)), string.ascii_lowercase))}"
+    total_times = torch.stack(list(results.values())).sum(dim=0)
+    total_row = make_row(total_times)
+    total_median = total_row[2]
+    data.extend([tabulate.SEPARATING_LINE, ["Total", *total_row]])
+
+    table = tabulate.tabulate(data, headers=headers, tablefmt="simple", floatfmt=".0f")
+
+    return table, total_median
+
+
+def make_summary_stats(totals):
+    keys, values = zip(*totals.items())
+
+    row_labels = [
+        f"{', '.join(key)}  [{id}]" for key, id in zip(keys, string.ascii_lowercase)
+    ]
+    headers = ["", *(f"[{id}]" for id in string.ascii_lowercase[: len(row_labels)])]
+
+    slowdowns = torch.tensor(values, dtype=torch.float64).unsqueeze(1)
+    slowdowns = slowdowns / slowdowns.T
+
+    data = [[row_label, *bar] for row_label, bar in zip(row_labels, slowdowns.tolist())]
+
+    return tabulate.tabulate(
+        data, headers=headers, tablefmt="simple", floatfmt=".2f", stralign="right"
     )
-    for (label, val), id in zip(medians_flat.items(), string.ascii_lowercase):
-        print(
-            f"{label:>{field_len}}, [{id}]  {'  '.join(f'{val / ref:4.2f}' for ref in medians_flat.values())}"
-        )
-    print()
-    print("Slowdown as row / col")
 
 
 if __name__ == "__main__":

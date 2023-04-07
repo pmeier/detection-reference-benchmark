@@ -6,3 +6,4 @@ dependencies:
     - light-the-torch
     - pycocotools
     - tqdm
+    - tabulate

@@ -69,10 +69,10 @@ def main(*, input_types, tasks, num_samples):
             for sample in tqdm(dataset):
                 pipeline(sample)
 
-            results = {
-                transform_name: times.mul(1e6)
-                for transform_name, times in pipeline.extract_times().items()
-            }
+            results = [
+                (transform_name, times.mul(1e6))
+                for transform_name, times in pipeline.extract_times()
+            ]
             table, total = make_pipeline_stats(results)
             print(table)
             print()
@@ -95,11 +95,9 @@ def make_pipeline_stats(results):
         return [min, q25, median, q75, max]
 
     headers = ["transform", "min", "25% quantile", "median", "75% quantile", "max"]
-    data = [
-        [transform_name, *make_row(times)] for transform_name, times in results.items()
-    ]
+    data = [[transform_name, *make_row(times)] for transform_name, times in results]
 
-    total_times = torch.stack(list(results.values())).sum(dim=0)
+    total_times = torch.stack([times for _, times in results]).sum(dim=0)
     total_row = make_row(total_times)
     total_median = total_row[2]
     data.extend([tabulate.SEPARATING_LINE, ["Total", *total_row]])

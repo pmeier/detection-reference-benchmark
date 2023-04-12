@@ -36,12 +36,15 @@ class Pipeline:
         self._times = {transform: [] for transform in self.transforms}
 
     def extract_times(self):
-        return {
-            re.match(r"(?P<name>.*?)(_?[vV][1,2])?$", type(transform).__name__)[
-                "name"
-            ]: torch.tensor(self._times[transform], dtype=torch.float64).mul_(1e-9)
+        return [
+            (
+                re.match(r"(?P<name>.*?)(_?[vV][1,2])?$", type(transform).__name__)[
+                    "name"
+                ],
+                torch.tensor(self._times[transform], dtype=torch.float64).mul_(1e-9),
+            )
             for transform in self.transforms
-        }
+        ]
 
 
 def classification_simple_pipeline_builder(*, input_type, api_version):
@@ -158,7 +161,13 @@ def detection_ssdlite_pipeline_builder(*, input_type, api_version):
         pipeline.append(ConvertImageDtypeV1(torch.float))
 
     elif api_version == "v2":
-        pipeline.append(WrapCocoSampleForTransformsV2())
+        pipeline.extend(
+            [
+                WrapCocoSampleForTransformsV2(),
+                transforms_v2.ClampBoundingBox(),
+                transforms_v2.SanitizeBoundingBox(),
+            ]
+        )
 
         if input_type == "Tensor":
             pipeline.append(transforms_v2.PILToTensor())

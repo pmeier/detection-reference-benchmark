@@ -67,7 +67,7 @@ def classification_simple_pipeline_builder(*, input_type, api_version):
     pipeline.extend(
         [
             RandomResizedCropWithoutResize(224),
-            transforms.Resize(224, antialias=True),
+            transforms.Resize((224, 224), antialias=True),
             transforms.RandomHorizontalFlip(p=0.5),
         ]
     )
@@ -111,7 +111,7 @@ def classification_complex_pipeline_builder(*, input_type, api_version):
     pipeline.extend(
         [
             RandomResizedCropWithoutResize(224),
-            transforms.Resize(224, antialias=True),
+            transforms.Resize((224, 224), antialias=True),
             transforms.RandomHorizontalFlip(p=0.5),
             transforms.AutoAugment(transforms.AutoAugmentPolicy.IMAGENET),
         ]

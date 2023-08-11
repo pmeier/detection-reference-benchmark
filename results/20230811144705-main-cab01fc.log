@@ -1,0 +1,388 @@
+############################################################
+classification-simple
+############################################################
+input_type='Tensor', api_version='v1'
+
+transform                         min    25% quantile    median    75% quantile    max
+------------------------------  -----  --------------  --------  --------------  -----
+PILToTensor                       231             237       240             249    479
+RandomResizedCropWithoutResize     96              99       101             112    405
+Resize                            392             749       959            1176   2441
+RandomHorizontalFlip               25              27        51              53    240
+ConvertImageDtype                 112             114       115             121    310
+Normalize                         170             172       174             183    464
+------------------------------  -----  --------------  --------  --------------  -----
+Total                            1065            1436      1648            1869   3831
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+input_type='Tensor', api_version='v2'
+
+transform                         min    25% quantile    median    75% quantile    max
+------------------------------  -----  --------------  --------  --------------  -----
+PILToTensor                       244             249       253             263    392
+RandomResizedCropWithoutResize     96             100       104             112    183
+Resize                            211             324       382             444    615
+RandomHorizontalFlip               35              37        67              70    103
+ConvertImageDtype                  86              88        91              93    135
+Normalize                         137             139       140             148    583
+------------------------------  -----  --------------  --------  --------------  -----
+Total                             839             980      1038            1105   1559
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+input_type='PIL', api_version='v1'
+
+transform                         min    25% quantile    median    75% quantile    max
+------------------------------  -----  --------------  --------  --------------  -----
+RandomResizedCropWithoutResize    105             131       147             164    348
+Resize                            301             596       764             932   1299
+RandomHorizontalFlip               26              28        70              73    105
+PILToTensor                        90              93        95              99    141
+ConvertImageDtype                 119             121       122             129    190
+Normalize                         572             576       595             619    682
+------------------------------  -----  --------------  --------  --------------  -----
+Total                            1269            1604      1785            1970   2401
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+input_type='PIL', api_version='v2'
+
+transform                         min    25% quantile    median    75% quantile    max
+------------------------------  -----  --------------  --------  --------------  -----
+RandomResizedCropWithoutResize    106             130       147             163    267
+Resize                            304             599       766             932   1305
+RandomHorizontalFlip               33              35        82              84    120
+PILToTensor                       106             108       109             114    159
+ConvertImageDtype                  93              94        95              99    149
+Normalize                         527             528       529             569    618
+------------------------------  -----  --------------  --------  --------------  -----
+Total                            1205            1545      1726            1912   2392
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+input_type='Datapoint', api_version='v2'
+
+transform                         min    25% quantile    median    75% quantile    max
+------------------------------  -----  --------------  --------  --------------  -----
+ToImageTensor                     254             261       263             274    509
+RandomResizedCropWithoutResize    107             109       113             123    219
+Resize                            216             331       392             449    595
+RandomHorizontalFlip               35              37        75              77    119
+ConvertImageDtype                  94              96       100             101    145
+Normalize                         144             146       147             156    580
+------------------------------  -----  --------------  --------  --------------  -----
+Total                             904            1028      1089            1148   1713
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+Summary
+
+                      [a]    [b]    [c]    [d]    [e]
+------------------  -----  -----  -----  -----  -----
+   Tensor, v1  [a]   1.00   1.59   0.92   0.95   1.51
+   Tensor, v2  [b]   0.63   1.00   0.58   0.60   0.95
+      PIL, v1  [c]   1.08   1.72   1.00   1.03   1.64
+      PIL, v2  [d]   1.05   1.66   0.97   1.00   1.59
+Datapoint, v2  [e]   0.66   1.05   0.61   0.63   1.00
+
+Slowdown computed as row / column
+############################################################
+classification-complex
+############################################################
+input_type='Tensor', api_version='v1'
+
+transform                         min    25% quantile    median    75% quantile    max
+------------------------------  -----  --------------  --------  --------------  -----
+PILToTensor                       237             247       254             262    353
+RandomResizedCropWithoutResize     96             100       104             113    212
+Resize                            394             774       989            1228   1750
+RandomHorizontalFlip               25              27        30              56     87
+AutoAugment                       151             561      1178            1278   8479
+RandomErasing                      20              25        28              31    236
+ConvertImageDtype                 111             116       118             124    153
+Normalize                         170             173       176             185    231
+------------------------------  -----  --------------  --------  --------------  -----
+Total                            1366            2350      2815            3213   9841
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+input_type='Tensor', api_version='v2'
+
+transform                         min    25% quantile    median    75% quantile    max
+------------------------------  -----  --------------  --------  --------------  -----
+PILToTensor                       249             256       262             269    434
+RandomResizedCropWithoutResize     96             100       104             112    188
+Resize                            213             331       391             446    588
+RandomHorizontalFlip               34              36        56              71    104
+AutoAugment                        62             417       883             985   1932
+RandomErasing                      23              30        33              37    240
+ConvertImageDtype                  85              89        91              94    137
+Normalize                         138             140       142             150    580
+------------------------------  -----  --------------  --------  --------------  -----
+Total                             982            1504      1981            2173   3271
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+input_type='PIL', api_version='v1'
+
+transform                         min    25% quantile    median    75% quantile    max
+------------------------------  -----  --------------  --------  --------------  -----
+RandomResizedCropWithoutResize    106             133       150             168    266
+Resize                            300             608       763             931   1295
+RandomHorizontalFlip               27              29        34              74    105
+AutoAugment                       147             335       541             716   1888
+PILToTensor                        95              97        98             102    138
+RandomErasing                      26              29        30              32    230
+ConvertImageDtype                 116             118       119             125    190
+Normalize                         571             575       578             617    750
+------------------------------  -----  --------------  --------  --------------  -----
+Total                            1469            2162      2397            2662   3972
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+input_type='PIL', api_version='v2'
+
+transform                         min    25% quantile    median    75% quantile    max
+------------------------------  -----  --------------  --------  --------------  -----
+RandomResizedCropWithoutResize    106             133       149             165    279
+Resize                            305             612       780             933   1323
+RandomHorizontalFlip               32              34        48              84    137
+AutoAugment                        57             251       453             640   1724
+PILToTensor                       109             112       113             118    162
+RandomErasing                      31              34        35              37    241
+ConvertImageDtype                  90              92        93              96    166
+Normalize                         527             529       535             569    619
+------------------------------  -----  --------------  --------  --------------  -----
+Total                            1341            2040      2270            2533   3617
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+input_type='Datapoint', api_version='v2'
+
+transform                         min    25% quantile    median    75% quantile    max
+------------------------------  -----  --------------  --------  --------------  -----
+ToImageTensor                     259             266       272             280    438
+RandomResizedCropWithoutResize    106             110       114             123    218
+Resize                            221             338       399             456    604
+RandomHorizontalFlip               34              37        55              79    120
+AutoAugment                        63             432       900            1010   1936
+RandomErasing                      23              30        34              38    253
+ConvertImageDtype                  95              98       100             104    146
+Normalize                         145             147       149             157    590
+------------------------------  -----  --------------  --------  --------------  -----
+Total                            1019            1571      2048            2263   3367
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+Summary
+
+                      [a]    [b]    [c]    [d]    [e]
+------------------  -----  -----  -----  -----  -----
+   Tensor, v1  [a]   1.00   1.42   1.17   1.24   1.37
+   Tensor, v2  [b]   0.70   1.00   0.83   0.87   0.97
+      PIL, v1  [c]   0.85   1.21   1.00   1.06   1.17
+      PIL, v2  [d]   0.81   1.15   0.95   1.00   1.11
+Datapoint, v2  [e]   0.73   1.03   0.85   0.90   1.00
+
+Slowdown computed as row / column
+############################################################
+detection-ssdlite
+############################################################
+loading annotations into memory...
+Done (t=10.17s)
+creating index...
+index created!
+Caching 3000 ([89444, 73295, 101719] ... [16812, 9022, 64645]) COCO samples
+input_type='Tensor', api_version='v1'
+
+transform                 min    25% quantile    median    75% quantile     max
+----------------------  -----  --------------  --------  --------------  ------
+ConvertCocoPolysToMask    463            1892      3852            7948   66441
+PILToTensor               148             453       511             560     782
+RandomIoUCrop              31             559       862           10195  211446
+RandomHorizontalFlip       21              28        51             445    4606
+ConvertImageDtype          79             336       497             694    2948
+----------------------  -----  --------------  --------  --------------  ------
+Total                    1643            4766     10121           18614  222182
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+loading annotations into memory...
+Done (t=10.77s)
+creating index...
+index created!
+Caching 3000 ([89444, 73295, 101719] ... [16812, 9022, 64645]) COCO samples
+input_type='Tensor', api_version='v2'
+
+transform                      min    25% quantile    median    75% quantile     max
+---------------------------  -----  --------------  --------  --------------  ------
+WrapCocoSampleForTransforms     90             112       117             126     248
+ClampBoundingBoxes              89              92        95              98     145
+SanitizeBoundingBoxes          296             309       324             334     480
+PILToTensor                    165             428       467             511     682
+RandomIoUCrop                   71             608       783           10281  138093
+RandomHorizontalFlip            42              48       219             335    1874
+ConvertImageDtype              121             258       375             538    2273
+SanitizeBoundingBoxes          309             335       347             360     470
+---------------------------  -----  --------------  --------  --------------  ------
+Total                         1647            2405      2820           12334  141567
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+loading annotations into memory...
+Done (t=11.47s)
+creating index...
+index created!
+Caching 3000 ([89444, 73295, 101719] ... [16812, 9022, 64645]) COCO samples
+input_type='PIL', api_version='v1'
+
+transform                 min    25% quantile    median    75% quantile     max
+----------------------  -----  --------------  --------  --------------  ------
+ConvertCocoPolysToMask    493            1923      3930            8131   71445
+RandomIoUCrop              29             688      1003           10545  215013
+RandomHorizontalFlip       21              31        59             399    4643
+PILToTensor                85             240       316             421    2067
+ConvertImageDtype          80             318       486             718    1365
+----------------------  -----  --------------  --------  --------------  ------
+Total                    1670            4781     10333           18730  223361
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+loading annotations into memory...
+Done (t=13.10s)
+creating index...
+index created!
+Caching 3000 ([89444, 73295, 101719] ... [16812, 9022, 64645]) COCO samples
+input_type='PIL', api_version='v2'
+
+transform                      min    25% quantile    median    75% quantile     max
+---------------------------  -----  --------------  --------  --------------  ------
+WrapCocoSampleForTransforms     90             107       117             126     255
+ClampBoundingBoxes              89              92        93              98     152
+SanitizeBoundingBoxes          297             322       332             346     481
+RandomIoUCrop                   68             694       898           10396  140709
+RandomHorizontalFlip            41              48       200             283    1979
+PILToTensor                    137             228       304             398    1932
+ConvertImageDtype              116             241       362             506     953
+SanitizeBoundingBoxes          306             321       339             352     543
+---------------------------  -----  --------------  --------  --------------  ------
+Total                         1585            2322      2831           12285  142422
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+loading annotations into memory...
+Done (t=11.12s)
+creating index...
+index created!
+Caching 3000 ([89444, 73295, 101719] ... [16812, 9022, 64645]) COCO samples
+input_type='Datapoint', api_version='v2'
+
+transform                      min    25% quantile    median    75% quantile     max
+---------------------------  -----  --------------  --------  --------------  ------
+WrapCocoSampleForTransforms     90             108       116             128     299
+ClampBoundingBoxes              90              93        95              99     141
+SanitizeBoundingBoxes          296             319       328             342     432
+ToImageTensor                  156             442       479             521     693
+RandomIoUCrop                   72             617       799           10292  137360
+RandomHorizontalFlip            42              49       221             353    2009
+ConvertImageDtype              123             289       402             563    2238
+SanitizeBoundingBoxes          306             335       348             367     495
+---------------------------  -----  --------------  --------  --------------  ------
+Total                         1660            2470      2866           12379  141113
+
+Results computed for 3_000 samples and reported in µs
+------------------------------------------------------------
+Summary
+
+                      [a]    [b]    [c]    [d]    [e]
+------------------  -----  -----  -----  -----  -----
+   Tensor, v1  [a]   1.00   3.59   0.98   3.58   3.53
+   Tensor, v2  [b]   0.28   1.00   0.27   1.00   0.98
+      PIL, v1  [c]   1.02   3.66   1.00   3.65   3.60
+      PIL, v2  [d]   0.28   1.00   0.27   1.00   0.99
+Datapoint, v2  [e]   0.28   1.02   0.28   1.01   1.00
+
+Slowdown computed as row / column
+############################################################
+Collecting environment information...
+PyTorch version: 2.1.0.dev20230811+cu121
+Is debug build: False
+CUDA used to build PyTorch: 12.1
+ROCM used to build PyTorch: N/A
+
+OS: Ubuntu 22.04.2 LTS (x86_64)
+GCC version: (Ubuntu 11.3.0-1ubuntu1~22.04.1) 11.3.0
+Clang version: Could not collect
+CMake version: version 3.22.1
+Libc version: glibc-2.35
+
+Python version: 3.10.6 (main, May 29 2023, 11:10:38) [GCC 11.3.0] (64-bit runtime)
+Python platform: Linux-5.15.0-76-generic-x86_64-with-glibc2.35
+Is CUDA available: True
+CUDA runtime version: 12.1.105
+CUDA_MODULE_LOADING set to: LAZY
+GPU models and configuration:
+GPU 0: NVIDIA GeForce GTX 1080 Ti
+GPU 1: NVIDIA GeForce RTX 4090
+
+Nvidia driver version: 530.41.03
+cuDNN version: Probably one of the following:
+/usr/lib/x86_64-linux-gnu/libcudnn.so.8.9.0
+/usr/lib/x86_64-linux-gnu/libcudnn_adv_infer.so.8.9.0
+/usr/lib/x86_64-linux-gnu/libcudnn_adv_train.so.8.9.0
+/usr/lib/x86_64-linux-gnu/libcudnn_cnn_infer.so.8.9.0
+/usr/lib/x86_64-linux-gnu/libcudnn_cnn_train.so.8.9.0
+/usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8.9.0
+/usr/lib/x86_64-linux-gnu/libcudnn_ops_train.so.8.9.0
+HIP runtime version: N/A
+MIOpen runtime version: N/A
+Is XNNPACK available: True
+
+CPU:
+Architecture:                    x86_64
+CPU op-mode(s):                  32-bit, 64-bit
+Address sizes:                   46 bits physical, 48 bits virtual
+Byte Order:                      Little Endian
+CPU(s):                          12
+On-line CPU(s) list:             0-11
+Vendor ID:                       GenuineIntel
+Model name:                      Intel(R) Core(TM) i7-6850K CPU @ 3.60GHz
+CPU family:                      6
+Model:                           79
+Thread(s) per core:              2
+Core(s) per socket:              6
+Socket(s):                       1
+Stepping:                        1
+CPU max MHz:                     4000.0000
+CPU min MHz:                     1200.0000
+BogoMIPS:                        7199.86
+Flags:                           fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault cat_l3 cdp_l3 invpcid_single pti intel_ppin ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts md_clear flush_l1d
+Virtualization:                  VT-x
+L1d cache:                       192 KiB (6 instances)
+L1i cache:                       192 KiB (6 instances)
+L2 cache:                        1.5 MiB (6 instances)
+L3 cache:                        15 MiB (1 instance)
+NUMA node(s):                    1
+NUMA node0 CPU(s):               0-11
+Vulnerability Itlb multihit:     KVM: Mitigation: VMX disabled
+Vulnerability L1tf:              Mitigation; PTE Inversion; VMX conditional cache flushes, SMT vulnerable
+Vulnerability Mds:               Mitigation; Clear CPU buffers; SMT vulnerable
+Vulnerability Meltdown:          Mitigation; PTI
+Vulnerability Mmio stale data:   Mitigation; Clear CPU buffers; SMT vulnerable
+Vulnerability Retbleed:          Not affected
+Vulnerability Spec store bypass: Mitigation; Speculative Store Bypass disabled via prctl and seccomp
+Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:        Mitigation; Retpolines, IBPB conditional, IBRS_FW, STIBP conditional, RSB filling, PBRSB-eIBRS Not affected
+Vulnerability Srbds:             Not affected
+Vulnerability Tsx async abort:   Mitigation; Clear CPU buffers; SMT vulnerable
+
+Versions of relevant libraries:
+[pip3] flake8==6.0.0
+[pip3] mypy==1.4.1
+[pip3] mypy-extensions==1.0.0
+[pip3] numpy==1.25.1
+[pip3] pytorch-triton==2.1.0+e6216047b8
+[pip3] torch==2.1.0.dev20230811+cu121
+[pip3] torchvision==0.16.0a0+cab01fc (https://github.com/pytorch/vision/commit/cab01fc1b7c7f0620ab95c6064f2a3fb583e9bee)
+[conda] Could not collect

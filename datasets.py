@@ -5,7 +5,8 @@ from torch.hub import tqdm
 from torchvision import datasets
 from torchvision.transforms import functional as F_v1
 
-COCO_ROOT = "~/datasets/coco"
+# COCO_ROOT = "~/datasets/coco"
+COCO_ROOT = "/data/disk1/MSCoco/"
 
 __all__ = ["classification_dataset_builder", "detection_dataset_builder"]
 

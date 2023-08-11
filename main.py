@@ -136,7 +136,7 @@ if __name__ == "__main__":
                 "detection-ssdlite",
             ],
             input_types=["Tensor", "PIL", "Datapoint"],
-            num_samples=1_000,
+            num_samples=3_000,
         )
 
         print("#" * 60)

@@ -164,8 +164,8 @@ def detection_ssdlite_pipeline_builder(*, input_type, api_version):
         pipeline.extend(
             [
                 WrapCocoSampleForTransformsV2(),
-                transforms_v2.ClampBoundingBox(),
-                transforms_v2.SanitizeBoundingBox(),
+                transforms_v2.ClampBoundingBox() if hasattr(transforms_v2, "ClampBoundingBox") else transforms_v2.ClampBoundingBoxes(),
+                transforms_v2.SanitizeBoundingBox() if hasattr(transforms_v2, "SanitizeBoundingBox") else transforms_v2.SanitizeBoundingBoxes(),
             ]
         )
 
@@ -186,8 +186,8 @@ def detection_ssdlite_pipeline_builder(*, input_type, api_version):
 
         pipeline.extend(
             [
-                transforms_v2.ConvertDtype(torch.float),
-                transforms_v2.SanitizeBoundingBox(),
+                transforms_v2.ConvertImageDtype(torch.float),
+                transforms_v2.SanitizeBoundingBox() if hasattr(transforms_v2, "SanitizeBoundingBox") else transforms_v2.SanitizeBoundingBoxes(),
             ]
         )
     else:
